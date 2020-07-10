@@ -103,6 +103,7 @@ def api_call():
     subjects_render, emotions_render = parser.predict(all_text)
     subjects_render = [x if all_text[i][0] != '' else [''] for i, x in enumerate(subjects_render)]
 
+    algo = request.json['algorithm']
     args, _ = utils.set_args()
     spec_args = request.json.get('args', {})
     for arg, val in spec_args.items():
@@ -112,7 +113,7 @@ def api_call():
     try:
         motifs, combined = generator.generate_visual(icons=subjects,
                                                      colors=emotions,
-                                                     topics=subjects_render,
+                                                     topics=subjects_render, algorithm=algo,
                                                      emotions=emotions_render,
                                                      out_dir=None,
                                                      **args)
